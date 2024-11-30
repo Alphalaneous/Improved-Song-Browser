@@ -1,0 +1,25 @@
+{
+	"geode": "4.0.1",
+	"gd": {
+		"win": "2.2074",
+		"android": "2.2074",
+		"mac": "2.2074",
+		"ios": "2.2074"
+	},
+	"id": "alphalaneous.improved_song_browser",
+	"name": "Improved Song Browser",
+	"version": "v1.0.0",
+	"developer": "Alphalaneous",
+	"description": "Song Search and Filtering in the Song Browser!",
+	"tags": ["Editor", "Utility", "Enhancement", "Music", "Interface"],
+	"resources": {
+		"sprites": [
+			"resources/*.png"
+		]
+	},
+	"links": {
+        "homepage": "https://linktr.ee/Alphalaneous",
+        "source": "https://github.com/Alphalaneous/Improved-Song-Browser",
+        "community": "https://discord.gg/Txn2CA5dHF"
+    }
+}
