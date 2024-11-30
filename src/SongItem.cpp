@@ -5,6 +5,8 @@ bool SongItem::init(SongData songData, bool even) {
         return false;
     }
 
+    setID(fmt::format("song-item-{}", songData.songID));
+
     setContentSize({356, 100});
     setAnchorPoint({ 0.5f, 0.5f });
 
@@ -12,6 +14,7 @@ bool SongItem::init(SongData songData, bool even) {
     CCLayerColor* bgLayer = CCLayerColor::create();
     bgLayer->setContentSize(getContentSize());
     bgLayer->setOpacity(255);
+    bgLayer->setID("background-color"_spr);
     
     if (even) {
         bgLayer->setColor({50, 50, 50});
@@ -29,7 +32,7 @@ bool SongItem::init(SongData songData, bool even) {
     else {
         songWidget = CustomSongWidget::create(songData.songInfoObject, nullptr, false, true, false, false, false, false, 0);
     }
-
+    songWidget->setID("song-widget");
     songWidget->setPosition(getContentSize()/2);
     songWidget->setZOrder(1);
     addChild(songWidget);

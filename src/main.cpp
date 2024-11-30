@@ -21,6 +21,7 @@ enum SortMode {
 class $modify(MyCCTextInputNopde, CCTextInputNode) {
 
     void updateCursorPosition(cocos2d::CCPoint p0, cocos2d::CCRect p1) {
+		if (!getUserObject("fix"_spr)) return CCTextInputNode::updateCursorPosition(p0, p1);
 		if (geode::TextInput* parent = typeinfo_cast<geode::TextInput*>(getParent())) {
 			CCPoint nodeSpace = convertToNodeSpace(p0);
 			nodeSpace = nodeSpace / parent->getScale();
@@ -131,7 +132,7 @@ class $modify(MyGJSongBrowser, GJSongBrowser) {
 		sortButtons->setContentSize({20, 280});
 		sortButtons->setID("sort-menu"_spr);
 
-		m_fields->m_orderToggler = createToggler("GJ_sortIcon_001.png", menu_selector(MyGJSongBrowser::toggleAscend), false, 1);
+		m_fields->m_orderToggler = createToggler("GJ_sortIcon_001.png", "order-btn"_spr, menu_selector(MyGJSongBrowser::toggleAscend), false, 1);
 		m_fields->m_orderTogglerSprOn = m_fields->m_orderToggler->m_onButton->getChildByType<ButtonSprite>(0);
 		m_fields->m_orderTogglerSprOn->setCascadeColorEnabled(true);
 		m_fields->m_orderTogglerSprOn->setCascadeOpacityEnabled(true);
@@ -145,13 +146,13 @@ class $modify(MyGJSongBrowser, GJSongBrowser) {
 		emptyDivider->setContentSize({1, 5});
 		sortButtons->addChild(emptyDivider);
 
-		CCMenuItemToggler* initialToggler = createToggler("GJ_timeIcon_001.png", menu_selector(MyGJSongBrowser::toggleRecent), true, 0.95f);
+		CCMenuItemToggler* initialToggler = createToggler("GJ_timeIcon_001.png", "recent-btn"_spr, menu_selector(MyGJSongBrowser::toggleRecent), true, 0.95f);
 		initialToggler->toggle(true);
 
 		m_fields->m_filterTogglers->addObject(initialToggler);
-		m_fields->m_filterTogglers->addObject(createToggler("GJ_noteIcon_001.png", menu_selector(MyGJSongBrowser::toggleName), true, 0.95f));
-		m_fields->m_filterTogglers->addObject(createToggler("artist_icon.png"_spr, menu_selector(MyGJSongBrowser::toggleArtist), true, 0.95f, true));
-		m_fields->m_filterTogglers->addObject(createToggler("id_icon.png"_spr, menu_selector(MyGJSongBrowser::toggleID), true, 0.95f, true));
+		m_fields->m_filterTogglers->addObject(createToggler("GJ_noteIcon_001.png", "name-btn"_spr, menu_selector(MyGJSongBrowser::toggleName), true, 0.95f));
+		m_fields->m_filterTogglers->addObject(createToggler("artist_icon.png"_spr, "artist-btn"_spr, menu_selector(MyGJSongBrowser::toggleArtist), true, 0.95f, true));
+		m_fields->m_filterTogglers->addObject(createToggler("id_icon.png"_spr, "id-btn"_spr, menu_selector(MyGJSongBrowser::toggleID), true, 0.95f, true));
     
 		for (CCMenuItemToggler* toggler : CCArrayExt<CCMenuItemToggler*>(m_fields->m_filterTogglers)) {
 			sortButtons->addChild(toggler);
@@ -177,6 +178,7 @@ class $modify(MyGJSongBrowser, GJSongBrowser) {
 			m_fields->m_background = m_mainLayer->getChildByID("background");
 
 			CCLayerColor* searchBar = CCLayerColor::create({100, 100, 100, 255});
+			searchBar->setID("search-bar"_spr);
 			searchBar->setContentSize({356, 30});
 			searchBar->setPositionY(190);
 			float scale = 0.70f;
@@ -184,9 +186,10 @@ class $modify(MyGJSongBrowser, GJSongBrowser) {
 			m_fields->m_searchInput = geode::TextInput::create((searchBar->getContentWidth() - 50) / scale, "Search", "bigFont.fnt");
 			m_fields->m_searchInput->setTextAlign(TextInputAlign::Left);
 			m_fields->m_searchInput->setScale(scale);
+			m_fields->m_searchInput->setID("search-input"_spr);
 			m_fields->m_searchInput->setPosition(searchBar->getContentSize()/2);
 			m_fields->m_searchInput->setPositionX(m_fields->m_searchInput->getPositionX() - 18);
-			m_fields->m_searchInput->getChildByType<CCTextInputNode>(0)->setID("song-search-input-node"_spr);
+			m_fields->m_searchInput->getChildByType<CCTextInputNode>(0)->setUserObject("fix"_spr, CCNode::create());
 			m_fields->m_searchInput->setCallback([this] (std::string str) {
 				handleSearch(str);
 			});
@@ -198,12 +201,14 @@ class $modify(MyGJSongBrowser, GJSongBrowser) {
 			clearSearchBtn->setPositionY(m_fields->m_searchInput->getPositionY());
 			clearSearchBtn->setScale(0.7f);
 			clearSearchBtn->m_baseScale = 0.7f;
+			clearSearchBtn->setID("clear-search-btn"_spr);
 
 			CCMenu* clearBtnMenu = CCMenu::create();
 			clearBtnMenu->setContentSize(clearSearchBtn->getScaledContentSize());
 			clearBtnMenu->setPositionX(m_fields->m_searchInput->getPositionX() + m_fields->m_searchInput->getScaledContentWidth()/2 + 21);
 			clearBtnMenu->setPositionY(m_fields->m_searchInput->getPositionY());
 			clearBtnMenu->ignoreAnchorPointForPosition(false);
+			clearBtnMenu->setID("clear-btn-menu"_spr);
 
 			clearSearchBtn->setPosition(clearBtnMenu->getContentSize()/2);
 
@@ -211,10 +216,7 @@ class $modify(MyGJSongBrowser, GJSongBrowser) {
 			searchBar->addChild(clearBtnMenu);
 
 			if (CustomListView* listView = m_fields->m_background->getChildByType<CustomListView>(0)) {
-				listView->setVisible(false);
-				if (TableView* tableView = listView->getChildByType<TableView>(0)) {
-					tableView->setContentSize({0, 0});
-				}
+				listView->removeFromParent();
 			}
 			setupListOfSongs();
 		});
@@ -351,6 +353,7 @@ class $modify(MyGJSongBrowser, GJSongBrowser) {
 
 		if (m_fields->m_songList) m_fields->m_songList->removeFromParent();
 		m_fields->m_songList = SongList::create(data);
+		m_fields->m_songList->setID("song-list"_spr);
 		m_fields->m_background->addChild(m_fields->m_songList);
 
 		if (songs.size() <= 10) {
@@ -445,7 +448,7 @@ class $modify(MyGJSongBrowser, GJSongBrowser) {
 		}
 	}
 
-	CCMenuItemToggler* createToggler(std::string spr, cocos2d::SEL_MenuHandler selector, bool alt, float scale, bool single = false){
+	CCMenuItemToggler* createToggler(std::string spr, std::string id, cocos2d::SEL_MenuHandler selector, bool alt, float scale, bool single = false){
 
 		CCSprite* onSpr;
 		CCSprite* offSpr;
@@ -477,6 +480,9 @@ class $modify(MyGJSongBrowser, GJSongBrowser) {
 		onSpr->setPosition({on->getContentSize().width/2, on->getContentSize().height/2});
 		offSpr->setPosition({off->getContentSize().width/2, off->getContentSize().height/2});
 
-		return CCMenuItemToggler::create(on, off, this, selector);
+		CCMenuItemToggler* toggler = CCMenuItemToggler::create(on, off, this, selector);
+		toggler->setID(id);
+
+		return toggler;
 	}
 };

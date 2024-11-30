@@ -8,7 +8,7 @@
 	},
 	"id": "alphalaneous.improved_song_browser",
 	"name": "Improved Song Browser",
-	"version": "v1.0.0",
+	"version": "v1.0.1",
 	"developer": "Alphalaneous",
 	"description": "Song Search and Filtering in the Song Browser!",
 	"tags": ["Editor", "Utility", "Enhancement", "Music", "Interface"],
@@ -17,6 +17,13 @@
 			"resources/*.png"
 		]
 	},
+	"dependencies": [
+        {
+            "id": "geode.node-ids",
+            "version": ">=v1.15.0",
+            "importance": "required"
+        }
+    ],
 	"links": {
         "homepage": "https://linktr.ee/Alphalaneous",
         "source": "https://github.com/Alphalaneous/Improved-Song-Browser",
