@@ -1,3 +1,6 @@
+# 1.0.2
+- Fix touch issues with Settings+
+
 # 1.0.1
 - Fix some crashes.
 - Add Node IDs dependency

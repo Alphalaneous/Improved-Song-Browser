@@ -354,6 +354,7 @@ class $modify(MyGJSongBrowser, GJSongBrowser) {
 		if (m_fields->m_songList) m_fields->m_songList->removeFromParent();
 		m_fields->m_songList = SongList::create(data);
 		m_fields->m_songList->setID("song-list"_spr);
+		handleTouchPriority(this);
 		m_fields->m_background->addChild(m_fields->m_songList);
 
 		if (songs.size() <= 10) {
