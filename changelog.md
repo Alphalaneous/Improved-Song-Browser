@@ -1,3 +1,6 @@
+# 1.0.5
+- Android32 Support
+
 # 1.0.4
 - Remove text input fix for mac, it crashes for some reason
 
