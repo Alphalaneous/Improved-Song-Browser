@@ -18,7 +18,7 @@ enum SortMode {
 	ID
 };
 
-class LevelSearchViewLayer {};
+class LevelSearchViewLayer : public CCLayer {};
 
 class $modify(MyCCTextInputNopde, CCTextInputNode) {
 
