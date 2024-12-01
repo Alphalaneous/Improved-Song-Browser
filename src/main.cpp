@@ -20,6 +20,8 @@ enum SortMode {
 
 class LevelSearchViewLayer : public CCLayer {};
 
+#ifndef GEODE_IS_MACOS
+
 class $modify(MyCCTextInputNopde, CCTextInputNode) {
 
     void updateCursorPosition(cocos2d::CCPoint p0, cocos2d::CCRect p1) {
@@ -32,6 +34,8 @@ class $modify(MyCCTextInputNopde, CCTextInputNode) {
 		CCTextInputNode::updateCursorPosition(p0, p1);
 	}
 };
+
+#endif
 
 class $modify(MyCustomSongWidget, CustomSongWidget) {
 

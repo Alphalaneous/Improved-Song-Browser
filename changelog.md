@@ -1,3 +1,6 @@
+# 1.0.4
+- Remove text input fix for mac, it crashes for some reason
+
 # 1.0.3
 - Fix BetterInfo song ID input being broken
 
