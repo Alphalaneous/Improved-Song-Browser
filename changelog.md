@@ -1,3 +1,6 @@
+# 1.0.3
+- Fix BetterInfo song ID input being broken
+
 # 1.0.2
 - Fix touch issues with Settings+
 

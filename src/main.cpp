@@ -18,6 +18,8 @@ enum SortMode {
 	ID
 };
 
+class LevelSearchViewLayer {};
+
 class $modify(MyCCTextInputNopde, CCTextInputNode) {
 
     void updateCursorPosition(cocos2d::CCPoint p0, cocos2d::CCRect p1) {
@@ -38,6 +40,18 @@ class $modify(MyCustomSongWidget, CustomSongWidget) {
 	};
 
     bool init(SongInfoObject* songInfo, CustomSongDelegate* songDelegate, bool showSongSelect, bool showPlayMusic, bool showDownload, bool isRobtopSong, bool unkBool, bool isMusicLibrary, int unk) {
+		
+		CCScene* scene = CCDirector::get()->getRunningScene();
+		if (scene->getChildByType<LevelSearchViewLayer>(0)) {
+			showSongSelect = true;
+		}
+		if (MoreSearchLayer* moreSearchLayer = scene->getChildByType<MoreSearchLayer>(0)) {
+			showSongSelect = true;
+			if (GJSongBrowser* songBrowser = scene->getChildByType<GJSongBrowser>(0)) {
+				songBrowser->m_songID = utils::numFromString<int>(moreSearchLayer->m_enterSongID->getString()).unwrapOr(0);
+			}
+		}
+		
 		if (!CustomSongWidget::init(songInfo, songDelegate, showSongSelect, showPlayMusic, showDownload, isRobtopSong, unkBool, isMusicLibrary, unk)) return false;
 		
 		if (showSongSelect) {
@@ -69,6 +83,15 @@ class $modify(MyCustomSongWidget, CustomSongWidget) {
 				MusicDownloadManager::sharedState()->songStateChanged();
 			}
 		}
+		CCScene* scene = CCDirector::get()->getRunningScene();
+		if (scene->getChildByType<MoreSearchLayer>(0) || scene->getChildByType<LevelSearchViewLayer>(0)) {
+			m_selectSongBtn->setVisible(true);
+			m_deleteBtn->setVisible(true);
+			if (GJSongBrowser* songBrowser = scene->getChildByType<GJSongBrowser>(0)) {
+				songBrowser->m_selected = true;
+				songBrowser->m_songID = m_customSongID;
+			}
+		}
 	}
 
     void songStateChanged() {
@@ -78,6 +101,10 @@ class $modify(MyCustomSongWidget, CustomSongWidget) {
 			if (m_showSelectSongBtn) {
 				m_deleteBtn->setPosition(m_fields->m_deleteButonPos);
 			}
+		}
+		CCScene* scene = CCDirector::get()->getRunningScene();
+		if (scene->getChildByType<MoreSearchLayer>(0) || scene->getChildByType<LevelSearchViewLayer>(0)) {
+			m_selectSongBtn->setVisible(true);
 		}
 
 		if (EditorUI* editorUI = EditorUI::get()) {
