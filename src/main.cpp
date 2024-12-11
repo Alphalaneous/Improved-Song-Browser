@@ -81,7 +81,13 @@ class $modify(MyCustomSongWidget, CustomSongWidget) {
 		CustomSongWidget::onSelect(sender);
 		if (EditorUI* editorUI = EditorUI::get()) {
 			CCScene* scene = CCDirector::get()->getRunningScene();
-			if (CustomSongLayer* songLayer = scene->getChildByType<CustomSongLayer>(0)) {
+			if (SetupSongTriggerPopup* songTrigger = scene->getChildByType<SetupSongTriggerPopup>(0)) {
+				if (CustomSongLayer* songLayer = scene->getChildByType<CustomSongLayer>(0)) {
+					songLayer->m_songWidget->updateSongObject(m_songInfoObject);
+					MusicDownloadManager::sharedState()->songStateChanged();
+				}
+			}
+			else if (CustomSongLayer* songLayer = scene->getChildByType<CustomSongLayer>(0)) {
 				songLayer->m_songWidget->updateSongObject(m_songInfoObject);
 				editorUI->m_editorLayer->m_levelSettings->m_level->m_songID = m_customSongID;
 				MusicDownloadManager::sharedState()->songStateChanged();
@@ -112,13 +118,15 @@ class $modify(MyCustomSongWidget, CustomSongWidget) {
 		}
 
 		if (EditorUI* editorUI = EditorUI::get()) {
-			if (editorUI->m_editorLayer->m_levelSettings->m_level->m_songID == m_customSongID) {
-				m_selectSongBtn->setEnabled(false);
-				m_selectSongBtn->setSprite(CCSprite::createWithSpriteFrameName("GJ_selectSongOnBtn_001.png"));
-			}
-			else {
-				m_selectSongBtn->setEnabled(true);
-				m_selectSongBtn->setSprite(CCSprite::createWithSpriteFrameName("GJ_selectSongBtn_001.png"));
+			if (!scene->getChildByType<SetupSongTriggerPopup>(0)) {
+				if (editorUI->m_editorLayer->m_levelSettings->m_level->m_songID == m_customSongID) {
+					m_selectSongBtn->setEnabled(false);
+					m_selectSongBtn->setSprite(CCSprite::createWithSpriteFrameName("GJ_selectSongOnBtn_001.png"));
+				}
+				else {
+					m_selectSongBtn->setEnabled(true);
+					m_selectSongBtn->setSprite(CCSprite::createWithSpriteFrameName("GJ_selectSongBtn_001.png"));
+				}
 			}
 		}
 	}

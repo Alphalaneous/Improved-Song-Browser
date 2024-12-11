@@ -1,3 +1,6 @@
+# 1.0.6
+- Song Trigger bugfix
+
 # 1.0.5
 - Android32 Support
 
