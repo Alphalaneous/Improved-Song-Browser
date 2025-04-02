@@ -1,5 +1,5 @@
 {
-	"geode": "4.0.1",
+	"geode": "4.3.1",
 	"gd": {
 		"win": "2.2074",
 		"android": "2.2074",
@@ -8,7 +8,7 @@
 	},
 	"id": "alphalaneous.improved_song_browser",
 	"name": "Improved Song Browser",
-	"version": "v1.0.6",
+	"version": "v1.0.8",
 	"developer": "Alphalaneous",
 	"description": "Song Search and Filtering in the Song Browser!",
 	"tags": ["Editor", "Utility", "Enhancement", "Music", "Interface"],
