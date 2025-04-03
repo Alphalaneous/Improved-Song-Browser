@@ -1,3 +1,6 @@
+# 1.0.9
+- Fix a crash on iOS
+
 # 1.0.8
 - iOS support
 
