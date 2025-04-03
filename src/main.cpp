@@ -20,7 +20,7 @@ enum SortMode {
 
 class LevelSearchViewLayer : public CCLayer {};
 
-#ifndef GEODE_IS_MACOS
+#ifdef GEODE_IS_WINDOWS
 
 class $modify(MyCCTextInputNopde, CCTextInputNode) {
 
