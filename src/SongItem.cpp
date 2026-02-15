@@ -1,6 +1,6 @@
 #include "SongItem.hpp"
 
-bool SongItem::init(SongData songData, bool even) {
+bool SongItem::init(const SongData& songData, bool even) {
     if (!CCNode::init()) {
         return false;
     }
@@ -10,8 +10,8 @@ bool SongItem::init(SongData songData, bool even) {
     setContentSize({356, 100});
     setAnchorPoint({ 0.5f, 0.5f });
 
-    CCScene* scene = CCDirector::get()->getRunningScene();
-    CCLayerColor* bgLayer = CCLayerColor::create();
+    auto scene = CCDirector::get()->getRunningScene();
+    auto bgLayer = CCLayerColor::create();
     bgLayer->setContentSize(getContentSize());
     bgLayer->setOpacity(255);
     bgLayer->setID("background-color"_spr);
@@ -26,7 +26,7 @@ bool SongItem::init(SongData songData, bool even) {
     addChild(bgLayer);
 
     CustomSongWidget* songWidget;
-    if (CustomSongLayer* songLayer = scene->getChildByType<CustomSongLayer>(0)) {
+    if (auto songLayer = scene->getChildByType<CustomSongLayer>(0)) {
         songWidget = CustomSongWidget::create(songData.songInfoObject, songLayer->m_songDelegate, true, true, false, false, false, false, 0);
     }
     else {
@@ -40,12 +40,12 @@ bool SongItem::init(SongData songData, bool even) {
     return true;
 }
 
-SongItem* SongItem::create(SongData songData, bool even) {
+SongItem* SongItem::create(const SongData& songData, bool even) {
     auto ret = new SongItem();
-    if (!ret || !ret->init(songData, even)) {
-        CC_SAFE_DELETE(ret);
-        return nullptr;
+    if (ret->init(songData, even)) {
+        ret->autorelease();
+        return ret;
     }
-    ret->autorelease();
-    return ret;
+    delete ret;
+    return nullptr;
 }

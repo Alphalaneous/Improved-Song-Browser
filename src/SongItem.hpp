@@ -8,8 +8,8 @@ using namespace geode::prelude;
 class SongItem : public CCNode {
 protected:
 public:
-    static SongItem* create(SongData, bool);
+    static SongItem* create(const SongData&, bool);
 private:
-    bool init(SongData, bool);
+    bool init(const SongData&, bool);
 };
 

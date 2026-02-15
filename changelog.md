@@ -1,3 +1,7 @@
+# 1.1.0
+- Geode v5 Support
+- Code cleanup
+
 # 1.0.9
 - Fix a crash on iOS
 

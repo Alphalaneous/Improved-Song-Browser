@@ -3,7 +3,7 @@
 
 using namespace geode::prelude;
 
-bool SongList::init(std::vector<SongData> songData){
+bool SongList::init(const std::vector<SongData>& songData){
 
     CCSize contentSize = {356, 190};
 
@@ -24,8 +24,8 @@ bool SongList::init(std::vector<SongData> songData){
     );
 
     bool even = false;
-    for (SongData data : songData) {
-        SongItem* item = SongItem::create(data, even);
+    for (const SongData& data : songData) {
+        auto item = SongItem::create(data, even);
         m_list->m_contentLayer->addChild(item);
         even = !even;
     }
@@ -36,12 +36,12 @@ bool SongList::init(std::vector<SongData> songData){
     return true;
 }
 
-SongList* SongList::create(std::vector<SongData> songData) {
+SongList* SongList::create(const std::vector<SongData>& songData) {
     auto ret = new SongList();
-    if (!ret || !ret->init(songData)) {
-        CC_SAFE_DELETE(ret);
-        return nullptr;
+    if (ret->init(songData)) {
+        ret->autorelease();
+        return ret;
     }
-    ret->autorelease();
-    return ret;
+    delete ret;
+    return nullptr;
 }

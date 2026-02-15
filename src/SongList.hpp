@@ -16,7 +16,7 @@ class SongList : public CCNode {
 
     protected:
         ScrollLayer* m_list;
-        bool init(std::vector<SongData>);
+        bool init(const std::vector<SongData>&);
     public:
-        static SongList* create(std::vector<SongData>);
+        static SongList* create(const std::vector<SongData>&);
 };
