@@ -6,10 +6,9 @@
 using namespace geode::prelude;
 
 class SongItem : public CCNode {
-protected:
 public:
     static SongItem* create(const SongData&, bool);
-private:
+protected:
     bool init(const SongData&, bool);
 };
 

@@ -1,3 +1,7 @@
+# 1.1.1
+- Clean up sprites
+- Move sort UI to better support other aspect ratios
+
 # 1.1.0
 - Geode v5 Support
 - Code cleanup
